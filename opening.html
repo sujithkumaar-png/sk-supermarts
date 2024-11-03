@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two Divided Page</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column; /* Arrange sections vertically */
+            height: 100vh;
+        }
+        .top {
+            background-color: yellow;
+            flex: 1; /* Take up half the height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .bottom {
+            background-color: red;
+            flex: 1; /* Take up the other half height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        a {
+            text-decoration: none; /* Remove underline from link */
+        }
+    </style>
+</head>
+<body>
+    <div class="top">
+        <a href="login.html">
+            <button>SHOPPING</button>
+        </a>
+    </div>
+    <div class="bottom">
+        <a href="pay.html">
+            <button>PREDICTION</button>
+        </a>
+    </div>
+</body>
+</html>
