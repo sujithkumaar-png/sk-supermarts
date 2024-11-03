@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Selector</title>
+    <h1>SK GROUP OF MARKETS</h1>
+    <h2>Prediction For Product Sales </h2>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center items horizontally */
+            justify-content: center; /* Center items vertically */
+            height: 100vh; /* Full height of the viewport */
+            margin: 0; /* Remove default margin */
+            font-family: Arial, sans-serif; /* Optional: set font */
+        }
+        .main-content {
+            width: 70%; /* Adjust width as needed */
+        }
+        .iframe-container {
+            position: absolute; /* Position the iframe container absolutely */
+            top: 20px; /* Adjust top offset */
+            right: 20px; /* Adjust right offset */
+            width: 30%; /* Width for the iframe container */
+        }
+        iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
+        }
+        select {
+            margin-top: 20px; /* Space between label and select */
+        }
+        img {
+            margin-top: 10px; /* Space between product name and image */
+            max-width: 100px; /* Set max width for image */
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #28a745; /* Green color */
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px; /* Rounded corners */
+            font-size: 16px;
+            margin-top: 20px;
+            width: 250px; /* Increased font size */
+        }
+        button:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+        #output {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        
+    </style>
+    <script>
+        // Updated product data with names and placeholder images
+    
+        const products = {
+            "PRD-001234": { name: "Valluvar Brand Rice", image: "rice.jpg" },
+            "PRD-001235": { name: "Aashirvaad Wheat Flour", image: "wheat.jpg" },
+            "PRD-001236": { name: "Gold Winner Oil", image: "oil.jpg" },
+            "PRD-001237": { name: "K.P. Namboodiri's Soap", image: "soap.jpg" },
+            "PRD-001238": { name: "Sensodyne Toothpaste", image: "sensodyne.jpg" },
+            "PRD-001239": { name: "Garnier Products", image: "garnier.jpg" },
+            "PRD-001240": { name: "Lays Chips", image: "lay.jpg" },
+            "PRD-001241": { name: "Badam Nut", image: "badam.jpg" },
+            "PRD-001242": { name: "Aachi Chilli Powder", image: "Chilli.jpg" },
+            "PRD-001243": { name: "Garlic", image: "garlic.jpg" },
+            "PRD-001244": { name: "Aachi Turmeric Powder", image: "tumeric.jpg" },
+            "PRD-001245": { name: "Sakthi Sambar Powder", image: "sambar.jpg" },
+            "PRD-001246": { name: "Sakthi Rasam Powder", image: "rasam.jpg" },
+            "PRD-001247": { name: "Vee Vee Sugar", image: "sugar.jpg" },
+            "PRD-001248": { name: "Uzhavan Brown Sugar", image: "bsugar.jpg" },
+            "PRD-001249": { name: "Aachi Coriander Masala", image: "coriander.jpg" },
+            "PRD-001250": { name: "Aachi Pepper Masala", image: "peper.jpg" },
+            "PRD-001251": { name: "Aachi Egg Curry Masala", image: "eggmasala.jpg" },
+            "PRD-001252": { name: "Sakthi Chicken Masala", image: "chickenm.jpg" },
+            "PRD-001253": { name: "Sakthi Mutton Masala", image: "mutton.jpg" },
+            "PRD-001254": { name: "Aachi Chicken 65 Masala", image: "65.jpg" },
+            "PRD-001255": { name: "Aachi Ginger Garlic Paste", image: "gingergarcli.jpg" },
+            "PRD-001256": { name: "Naga Sooji", image: "sooji.jpg" },
+            "PRD-001257": { name: "Gokulam Dates", image: "dates.jpg" },
+            "PRD-001258": { name: "Colgate Mouth Wash", image: "mouthwash.jpg" },
+            "PRD-001259": { name: "JM Tooth Powder", image: "jm.jpg" },
+            "PRD-001260": { name: "Gandhigram Rise Shampoo", image: "shampoo.jpg" },
+            "PRD-001261": { name: "Navratna Oil", image: "navratna.jpg" },
+            "PRD-001262": { name: "Glow & Lovely", image: "fair.jpg" },
+            "PRD-001263": { name: "Nizam Pakku", image: "nizam.jpg" },
+            "PRD-001264": { name: "Sakthi Biryani Masala", image: "briyani masal.jpg" },
+            "PRD-001265": { name: "Egg", image: "egg.jpg" },
+            "PRD-001266": { name: "Horlicks Bottle", image: "horlicks.jpg" },
+            "PRD-001267": { name: "Boost Bottle", image: "boost.jpg" },
+            "PRD-001268": { name: "Complan", image: "complan.jpg" },
+            "PRD-001269": { name: "Sunrise Coffee Powder Bottle", image: "cofee.jpg" },
+            "PRD-001270": { name: "3 Roses Tea", image: "tea.jpg" },
+            "PRD-001271": { name: "Milky Bar", image: "milkly.jpg" },
+            "PRD-001272": { name: "KitKat", image: "kit.jpg" },
+            "PRD-001273": { name: "Dairy Milk", image: "Cadbury.jpg" },
+            "PRD-001274": { name: "5 Star", image: "5star.jpg" },
+            "PRD-001275": { name: "Hide & Seek", image: "hide.jpg" },
+            "PRD-001276": { name: "Britannia Rusk", image: "rusk.jpg" },
+            "PRD-001277": { name: "JimJAM Biscuit", image: "jimjam.jpg" },
+            "PRD-001278": { name: "Oreo Biscuit", image: "oreo.jpg" },
+            "PRD-001279": { name: "Pepper", image: "pepperseed.jpg" },
+            "PRD-001280": { name: "Cumin", image: "cumin.jpg" },
+            "PRD-001281": { name: "Apsara Pencil", image: "apsara.jpg" },
+            "PRD-001282": { name: "Babyhug Teddy Bear", image: "teddy.jpg" },
+            "PRD-001283": { name: "777 Pickle", image: "777.jpg" }
+        };
+
+        // Function to update product name and image based on selected product ID
+        function updateProductDetails() {
+            const productId = document.getElementById("product_id").value;
+            const product = products[productId];
+            
+            if (product) {
+                document.getElementById("product_name").textContent = product.name;
+                document.getElementById("product_image").src = product.image;
+                document.getElementById("product_image").alt = product.name;
+            } else {
+                document.getElementById("product_name").textContent = "Select a Product ID";
+                document.getElementById("product_image").src = ""; // Clear image
+                document.getElementById("product_image").alt = "";
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <label for="product_id">Product ID:</label>
+    <select id="product_id" name="product_id" onchange="updateProductDetails()">
+        <option value="">Select Product ID</option>
+        <option value="PRD-001234">PRD-001234</option>
+        <option value="PRD-001235">PRD-001235</option>
+        <option value="PRD-001236">PRD-001236</option>
+        <option value="PRD-001237">PRD-001237</option>
+        <option value="PRD-001238">PRD-001238</option>
+        <option value="PRD-001239">PRD-001239</option>
+        <option value="PRD-001240">PRD-001240</option>
+        <option value="PRD-001241">PRD-001241</option>
+        <option value="PRD-001242">PRD-001242</option>
+        <option value="PRD-001243">PRD-001243</option>
+        <option value="PRD-001244">PRD-001244</option>
+        <option value="PRD-001245">PRD-001245</option>
+        <option value="PRD-001246">PRD-001246</option>
+        <option value="PRD-001247">PRD-001247</option>
+        <option value="PRD-001248">PRD-001248</option>
+        <option value="PRD-001249">PRD-001249</option>
+        <option value="PRD-001250">PRD-001250</option>
+        <option value="PRD-001251">PRD-001251</option>
+        <option value="PRD-001252">PRD-001252</option>
+        <option value="PRD-001253">PRD-001253</option>
+        <option value="PRD-001254">PRD-001254</option>
+        <option value="PRD-001255">PRD-001255</option>
+        <option value="PRD-001256">PRD-001256</option>
+        <option value="PRD-001257">PRD-001257</option>
+        <option value="PRD-001258">PRD-001258</option>
+        <option value="PRD-001259">PRD-001259</option>
+        <option value="PRD-001260">PRD-001260</option>
+        <option value="PRD-001261">PRD-001261</option>
+        <option value="PRD-001262">PRD-001262</option>
+        <option value="PRD-001263">PRD-001263</option>
+        <option value="PRD-001264">PRD-001264</option>
+        <option value="PRD-001265">PRD-001265</option>
+        <option value="PRD-001266">PRD-001266</option>
+        <option value="PRD-001267">PRD-001267</option>
+        <option value="PRD-001268">PRD-001268</option>
+        <option value="PRD-001269">PRD-001269</option>
+        <option value="PRD-001270">PRD-001270</option>
+        <option value="PRD-001271">PRD-001271</option>
+        <option value="PRD-001272">PRD-001272</option>
+        <option value="PRD-001273">PRD-001273</option>
+        <option value="PRD-001274">PRD-001274</option>
+        <option value="PRD-001275">PRD-001275</option>
+        <option value="PRD-001276">PRD-001276</option>
+        <option value="PRD-001277">PRD-001277</option>
+        <option value="PRD-001278">PRD-001278</option>
+        <option value="PRD-001279">PRD-001279</option>
+        <option value="PRD-001280">PRD-001280</option>
+        <option value="PRD-001281">PRD-001281</option>
+        <option value="PRD-001282">PRD-001282</option>
+        <option value="PRD-001283">PRD-001283</option>
+    </select>
+
+    <h2 id="product_name">Select a Product ID</h2>
+    <img id="product_image" src="" alt="">
+    <iframe src="aaaaa.html"></iframe>
+
+    <div>
+        <label for="weekdays">Select Weekday:</label>
+        <select id="weekdays">
+            <option value="">--Select--</option>
+            <option value="monday">Monday</option>
+            <option value="tuesday">Tuesday</option>
+            <option value="wednesday">Wednesday</option>
+            <option value="thursday">Thursday</option>
+            <option value="friday">Friday</option>
+            <option value="saturday">Saturday</option>
+            <option value="sunday">Sunday</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="months">Select Month:</label>
+        <select id="months">
+            <option value="">--Select--</option>
+            <option value="january">January</option>
+            <option value="february">February</option>
+            <option value="march">March</option>
+            <option value="april">April</option>
+            <option value="may">May</option>
+            <option value="june">June</option>
+            <option value="july">July</option>
+            <option value="august">August</option>
+            <option value="september">September</option>
+            <option value="october">October</option>
+            <option value="november">November</option>
+            <option value="december">December</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="years">Select Year:</label>
+        <select id="years">
+            <option value="">--Select--</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+        </select>
+    </div>
+
+    <button id="addButton">PREDICTION</button>
+
+    <div id="output"></div>
+    <script>
+        const button = document.getElementById('addButton');
+        const weekdays = document.getElementById('weekdays');
+        const months = document.getElementById('months');
+        const years = document.getElementById('years');
+        const output = document.getElementById('output');
+
+        // Define amounts based on combinations
+        const amounts = {
+            'sunday': {
+                'january': { '2023': 4000, '2024': 4100, '2025': 4200 },
+                'february': { '2023': 2001, '2024': 2101, '2025': 2201 },
+                'march': { '2023': 1002, '2024': 1102, '2025': 1202 },
+    'april': { '2023': 1003, '2024': 1103, '2025': 1203 },
+    'may': { '2023': 1004, '2024': 1104, '2025': 1204 },
+    'june': { '2023': 1005, '2024': 1105, '2025': 1205 },
+    'july': { '2023': 1006, '2024': 1106, '2025': 1206 },
+    'august': { '2023': 1007, '2024': 1107, '2025': 1207 },
+    'september': { '2023': 1008, '2024': 1108, '2025': 1208 },
+    'october': { '2023': 1009, '2024': 1109, '2025': 1209 },
+    'november': { '2023': 1010, '2024': 1110, '2025': 1210 },
+    'december': { '2023': 1011, '2024': 1111, '2025': 1211 },
+                // Add other months as needed
+            },
+            'monday': {
+                'january': { '2023': 1000, '2024': 1100, '2025': 1200 },
+    'february': { '2023': 1001, '2024': 1101, '2025': 1201 },
+    'march': { '2023': 1002, '2024': 1102, '2025': 1202 },
+    'april': { '2023': 1003, '2024': 1103, '2025': 1203 },
+    'may': { '2023': 1004, '2024': 1104, '2025': 1204 },
+    'june': { '2023': 1005, '2024': 1105, '2025': 1205 },
+    'july': { '2023': 1006, '2024': 1106, '2025': 1206 },
+    'august': { '2023': 1007, '2024': 1107, '2025': 1207 },
+    'september': { '2023': 1008, '2024': 1108, '2025': 1208 },
+    'october': { '2023': 1009, '2024': 1109, '2025': 1209 },
+    'november': { '2023': 1010, '2024': 1110, '2025': 1210 },
+    'december': { '2023': 1011, '2024': 1111, '2025': 1211 },
+                // Add other months as needed
+            },
+            'tuesday': {
+                'january': { '2023': 1500, '2024': 1600, '2025': 1700 },
+                'february': { '2023': 1501, '2024': 1601, '2025': 1701 },
+                'march': { '2023': 1002, '2024': 1102, '2025': 1202 },
+    'april': { '2023': 1003, '2024': 1103, '2025': 1203 },
+    'may': { '2023': 1004, '2024': 1104, '2025': 1204 },
+    'june': { '2023': 1005, '2024': 1105, '2025': 1205 },
+    'july': { '2023': 1006, '2024': 1106, '2025': 1206 },
+    'august': { '2023': 1007, '2024': 1107, '2025': 1207 },
+    'september': { '2023': 1008, '2024': 1108, '2025': 1208 },
+    'october': { '2023': 1009, '2024': 1109, '2025': 1209 },
+    'november': { '2023': 1010, '2024': 1110, '2025': 1210 },
+    'december': { '2023': 1011, '2024': 1111, '2025': 1211 },
+                // Add other months as needed
+            },
+            'wednesday': {
+                'january': { '2023': 2000, '2024': 2100, '2025': 2200 },
+                'february': { '2023': 2001, '2024': 2101, '2025': 2201 },
+                'march': { '2023': 1002, '2024': 1102, '2025': 1202 },
+    'april': { '2023': 1003, '2024': 1103, '2025': 1203 },
+    'may': { '2023': 1004, '2024': 1104, '2025': 1204 },
+    'june': { '2023': 1005, '2024': 1105, '2025': 1205 },
+    'july': { '2023': 1006, '2024': 1106, '2025': 1206 },
+    'august': { '2023': 1007, '2024': 1107, '2025': 1207 },
+    'september': { '2023': 1008, '2024': 1108, '2025': 1208 },
+    'october': { '2023': 1009, '2024': 1109, '2025': 1209 },
+    'november': { '2023': 1010, '2024': 1110, '2025': 1210 },
+    'december': { '2023': 1011, '2024': 1111, '2025': 1211 },
+                // Add other months as needed
+            },
+            // Continue for other weekdays...
+            'thursday': {
+                'january': { '2023': 2500, '2024': 2600, '2025': 2700 },
+                'february': { '2023': 2001, '2024': 2101, '2025': 2201 },
+                'march': { '2023': 1002, '2024': 1102, '2025': 1202 },
+    'april': { '2023': 1003, '2024': 1103, '2025': 1203 },
+    'may': { '2023': 1004, '2024': 1104, '2025': 1204 },
+    'june': { '2023': 1005, '2024': 1105, '2025': 1205 },
+    'july': { '2023': 1006, '2024': 1106, '2025': 1206 },
+    'august': { '2023': 1007, '2024': 1107, '2025': 1207 },
+    'september': { '2023': 1008, '2024': 1108, '2025': 1208 },
+    'october': { '2023': 1009, '2024': 1109, '2025': 1209 },
+    'november': { '2023': 1010, '2024': 1110, '2025': 1210 },
+    'december': { '2023': 1011, '2024': 1111, '2025': 1211 },
+                // Add other months as needed
+            },
+            'friday': {
+                'january': { '2023': 3000, '2024': 3100, '2025': 3200 },
+                'february': { '2023': 2001, '2024': 2101, '2025': 2201 },
+                'march': { '2023': 1002, '2024': 1102, '2025': 1202 },
+    'april': { '2023': 1003, '2024': 1103, '2025': 1203 },
+    'may': { '2023': 1004, '2024': 1104, '2025': 1204 },
+    'june': { '2023': 1005, '2024': 1105, '2025': 1205 },
+    'july': { '2023': 1006, '2024': 1106, '2025': 1206 },
+    'august': { '2023': 1007, '2024': 1107, '2025': 1207 },
+    'september': { '2023': 1008, '2024': 1108, '2025': 1208 },
+    'october': { '2023': 1009, '2024': 1109, '2025': 1209 },
+    'november': { '2023': 1010, '2024': 1110, '2025': 1210 },
+    'december': { '2023': 1011, '2024': 1111, '2025': 1211 },
+                // Add other months as needed
+            },
+            'saturday': {
+                'january': { '2023': 3500, '2024': 3600, '2025': 3700 },
+                'february': { '2023': 2001, '2024': 2101, '2025': 2201 },
+                'march': { '2023': 1002, '2024': 1102, '2025': 1202 },
+    'april': { '2023': 1003, '2024': 1103, '2025': 1203 },
+    'may': { '2023': 1004, '2024': 1104, '2025': 1204 },
+    'june': { '2023': 1005, '2024': 1105, '2025': 1205 },
+    'july': { '2023': 1006, '2024': 1106, '2025': 1206 },
+    'august': { '2023': 1007, '2024': 1107, '2025': 1207 },
+    'september': { '2023': 1008, '2024': 1108, '2025': 1208 },
+    'october': { '2023': 1009, '2024': 1109, '2025': 1209 },
+    'november': { '2023': 1010, '2024': 1110, '2025': 1210 },
+    'december': { '2023': 1011, '2024': 1111, '2025': 1211 },
+                // Add other months as needed
+            },
+            
+        };
+
+        button.addEventListener('click', () => {
+            const weekday = weekdays.value;
+            const month = months.value;
+            const year = years.value;
+
+            let amount = amounts[weekday]?.[month]?.[year];
+
+            let message = '';
+
+            if (amount) {
+                message = `The amount for ${weekday.charAt(0).toUpperCase() + weekday.slice(1)} in ${month.charAt(0).toUpperCase() + month.slice(1)} ${year} is ₹${amount}!`;
+            } else {
+                message = 'Please select a valid combination!';
+            }
+
+            output.textContent = message;
+        });
+    </script>
+</body>
+</html>

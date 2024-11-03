@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dindigul Location Search</title>
+
+    <style>
+        body {
+            margin: 0; /* Remove default margin */
+            background-image: url('sk.jpg'); /* Background image for the entire page */
+            background-size: cover; /* Cover the entire background */
+            background-position: center; /* Center the background image */
+            background-repeat: no-repeat; /* No repeat for background */
+            font-family: Arial, sans-serif; /* Set a default font */
+            height: 200vh; /* Extend body height to 200% of the viewport to enable scrolling */
+        }
+
+        .container {
+            position: relative; /* Set position relative for stacking context */
+            z-index: 1; /* Ensure this is above the background */
+        }
+
+        .header {
+            background-color: yellow;
+            padding: 20px;
+            font-size: 24px;
+            z-index: 2; /* Stack above the background */
+            position: relative; /* Establish positioning context */
+        }
+
+        .header-image {
+            display: block; /* Make the image a block element */
+            margin: -1px auto 20px; /* Move the image up by 20px and center it */
+            max-width: 100%; /* Make sure the image doesn't exceed the container width */
+            height: auto; /* Maintain aspect ratio */
+            position: relative; /* Ensure it stacks above background */
+            z-index: 3; /* Higher than the header for visibility */
+        }
+
+        .content {
+            padding: 20px; /* Padding for content */
+            background-color: rgba(255, 255, 255, 0.8); /* White background with transparency for contrast */
+            border-radius: 5px; /* Slight rounding of corners */
+            margin: 20px; /* Add some margin around the content */
+            max-height: 80vh; /* Limit height to 80% of viewport */
+            overflow-y: auto; /* Enable vertical scrolling if content exceeds max height */
+        }
+
+        .location-container {
+            margin: 20px auto;
+            width: 80%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        #location-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .suggestions {
+            background-color: white;
+            border: 1px solid #ccc;
+            border-top: none;
+            max-height: 150px;
+            overflow-y: auto;
+            display: none;
+            position: absolute;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .suggestion-item {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .suggestion-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Selected location display style */
+        .selected-location {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div style="background-color: yellow; text-align: center; padding: 10px 0;">
+          <h1 style="font-size: 48px;">SK GROUP OF MARKETS</h1> <!-- Set font-size to 48px -->
+          <p style="margin: 10px 0 0; font-size: 40px;"> <!-- Navigation links with increased font-size -->
+            <a href="#" style="margin: 0 10px; text-decoration: none; color: black;">Home Page</a> |
+            <a href="#" style="margin: 0 10px; text-decoration: none; color: black;">Product Page</a> |
+            <a href="#" style="margin: 0 10px; text-decoration: none; color: black;">Order Page</a> |
+            <a href="#" style="margin: 0 10px; text-decoration: none; color: black;">About Us</a> |
+            <a href="#" style="margin: 0 10px; text-decoration: none; color: black;">Contact Us</a> |
+            <a href="#" style="margin: 0 10px; text-decoration: none; color: black;">Feedback</a>
+          </p>
+          <a href="#" onclick="showLocationSearch()" style="color: black; text-decoration: none; font-weight: bold; font-size: 24px;">Choose Location</a>
+        </div>
+
+        <!-- Image added below header -->
+        <img src="DIWALI.JPG" alt="Dindigul" class="header-image"> <!-- Replace with your image path -->
+
+        <div class="location-container" id="location-container" style="display: none;">
+            <input id="location-input" type="text" placeholder="Enter location within Dindigul district..." oninput="filterSuggestions()" />
+            <div id="suggestions" class="suggestions"></div>
+            <!-- Display the selected location here -->
+            <div id="selected-location" class="selected-location">Selected Location: None</div>
+        </div>
+    </div>
+    <script>
+        // List of areas in Dindigul district
+        const dindigulLocations = [
+            "Ashok Nagar", "Nagal Nagar", "Begampur", "Batlagundu", "Thadikombu",
+            "Natham", "Palani", "Oddanchatram", "Vedasandur", "Chinnalapatti",
+            "Gandhigramam", "Nilakottai", "Sithayankottai", "Athoor", "Sembatti"
+        ];
+
+        function showLocationSearch() {
+            document.getElementById("location-container").style.display = "block";
+            document.getElementById("location-input").focus();
+        }
+
+        function filterSuggestions() {
+            const input = document.getElementById("location-input").value.toLowerCase();
+            const suggestionsContainer = document.getElementById("suggestions");
+            
+            // Clear previous suggestions
+            suggestionsContainer.innerHTML = '';
+
+            if (input) {
+                const filteredLocations = dindigulLocations.filter(location => location.toLowerCase().includes(input));
+                
+                // Show filtered locations as suggestions
+                filteredLocations.forEach(location => {
+                    const suggestionItem = document.createElement("div");
+                    suggestionItem.classList.add("suggestion-item");
+                    suggestionItem.textContent = location;
+                    suggestionItem.onclick = () => selectLocation(location);
+                    suggestionsContainer.appendChild(suggestionItem);
+                });
+                
+                suggestionsContainer.style.display = 'block';
+            } else {
+                suggestionsContainer.style.display = 'none';
+            }
+        }
+
+        function selectLocation(location) {
+            // Update the selected location text
+            document.getElementById("selected-location").textContent = `Selected Location: ${location}`;
+            document.getElementById("suggestions").style.display = 'none';
+            document.getElementById("location-input").value = ''; // Clear input field
+        }
+    </script>
+</body>
+</html>

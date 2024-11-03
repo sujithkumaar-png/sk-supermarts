@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Selection with Amounts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        label {
+            margin-right: 10px;
+        }
+        select {
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #28a745; /* Green color */
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px; /* Rounded corners */
+            font-size: 16px; /* Increased font size */
+            margin-top: 20px; /* Gap between the dropdowns and the button */
+            width: 150px; /* Set the button width */
+        }
+        button:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+        #output {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Select Date Options</h2>
+
+    <div>
+        <label for="weekdays">Select Weekday:</label>
+        <select id="weekdays">
+            <option value="">--Select--</option>
+            <option value="monday">Monday</option>
+            <option value="tuesday">Tuesday</option>
+            <option value="wednesday">Wednesday</option>
+            <option value="thursday">Thursday</option>
+            <option value="friday">Friday</option>
+            <option value="saturday">Saturday</option>
+            <option value="sunday">Sunday</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="months">Select Month:</label>
+        <select id="months">
+            <option value="">--Select--</option>
+            <option value="january">January</option>
+            <option value="february">February</option>
+            <option value="march">March</option>
+            <option value="april">April</option>
+            <option value="may">May</option>
+            <option value="june">June</option>
+            <option value="july">July</option>
+            <option value="august">August</option>
+            <option value="september">September</option>
+            <option value="october">October</option>
+            <option value="november">November</option>
+            <option value="december">December</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="years">Select Year:</label>
+        <select id="years">
+            <option value="">--Select--</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+        </select>
+    </div>
+
+    <button id="addButton">Add</button>
+
+    <div id="output"></div>
+
+    <script>
+        const button = document.getElementById('addButton');
+        const weekdays = document.getElementById('weekdays');
+        const months = document.getElementById('months');
+        const years = document.getElementById('years');
+        const output = document.getElementById('output');
+
+        // Define amounts based on combinations
+        const amounts = {
+            'monday': {
+                'january': { '2023': 1000, '2024': 1100, '2025': 1200 },
+                'february': { '2023': 1001, '2024': 1101, '2025': 1201 },
+                // Add other months as needed
+            },
+            'tuesday': {
+                'january': { '2023': 1500, '2024': 1600, '2025': 1700 },
+                'february': { '2023': 1501, '2024': 1601, '2025': 1701 },
+                // Add other months as needed
+            },
+            'wednesday': {
+                'january': { '2023': 2000, '2024': 2100, '2025': 2200 },
+                'february': { '2023': 2001, '2024': 2101, '2025': 2201 },
+                // Add other months as needed
+            },
+            // Continue for other weekdays...
+            'thursday': {
+                'january': { '2023': 2500, '2024': 2600, '2025': 2700 },
+                // Add other months as needed
+            },
+            'friday': {
+                'january': { '2023': 3000, '2024': 3100, '2025': 3200 },
+                // Add other months as needed
+            },
+            'saturday': {
+                'january': { '2023': 3500, '2024': 3600, '2025': 3700 },
+                // Add other months as needed
+            },
+            'sunday': {
+                'january': { '2023': 4000, '2024': 4100, '2025': 4200 },
+                // Add other months as needed
+            },
+        };
+
+        button.addEventListener('click', () => {
+            const weekday = weekdays.value;
+            const month = months.value;
+            const year = years.value;
+
+            let amount = amounts[weekday]?.[month]?.[year];
+
+            let message = '';
+
+            if (amount) {
+                message = `The amount for ${weekday.charAt(0).toUpperCase() + weekday.slice(1)} in ${month.charAt(0).toUpperCase() + month.slice(1)} ${year} is ₹${amount}!`;
+            } else {
+                message = 'Please select a valid combination!';
+            }
+
+            output.textContent = message;
+        });
+    </script>
+
+</body>
+</html>
